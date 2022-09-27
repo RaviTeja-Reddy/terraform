@@ -37,4 +37,7 @@ To start deployment
  This is to see what our code is going to create or make changes.
 
  4- terraform apply 
+
  This is to start our code and create the resource-group from our code.
+=======
+ 
