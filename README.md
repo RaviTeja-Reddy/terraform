@@ -1,29 +1,17 @@
 # terraform
 
-Creating resource group using terraform
+Creating resource group and storage group using terraform.
 
 
 Varibles.tf
 
 Created varibles.tf file by declaring resource group name , 
-location to create resource and tags.
-
-
-locals.tf
-
-created locals.tf file and add derived varibles in it.
-
-
-Output.tf
-
-created output.tf and specified the value for the resource group to 
-be displayed.
-Give Sensitive=True beacuse to hide the name in the code.
+storage group name , location to create resource and tags.
 
 main.tf
 
 Give azurerm as the source and configure all the vales written in
-varibles.tf , locals.tf , output.tf
+varibles.tf
 
 To start deployment
 
@@ -38,6 +26,6 @@ To start deployment
 
  4- terraform apply 
 
- This is to start our code and create the resource-group from our code.
+ This is to start our code and create the resource-group and storage group from our code.
 =======
  
