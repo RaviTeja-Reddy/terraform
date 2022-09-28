@@ -1,33 +1,31 @@
+variable "account_tier" {
+  default = "Standard"
+}
+
 variable "rg_name" {
   description = "Name of the Resource Group"
-  type        = string
-  default     = "ravi-rg"
+  default     = "ravi-rg-storage"
 }
 
 variable "location" {
-  description = "Location Area"
-  type        = string
+  description = "Resource Location"
   default     = "uksouth"
 }
 
 variable "tags" {
-  description = "tag of the resource"
+  description = "Tags for Resources"
   type        = map(string)
   default = {
-    "environment" = "dev"
-    "source"      = "terraform"
-    "mytag"       = "ravi"
+    "mytag"  = "reddy"
+    "source" = "terraform"
   }
+
 }
-variable "org_name" {
-    description = "organisation name"
-    type = string
-    default = "ravi_rg"
-  
+variable "st_name" {
+  description = "Name of the Storage Account"
+  default     = "ravistorage3378"
 }
-variable "project_name" {
-    description = "project name"
-    type = string
-    default = "ravi"
-  
+
+variable "account_replication_type" {
+  default = "GRS"
 }
