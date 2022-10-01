@@ -1,80 +1,49 @@
 provider "azurerm" {
-  features {
-    key_vault {
-      purge_soft_delete_on_destroy = true
+    features {
     }
-
-  }
-
+  
 }
-data "azurerm_client_config" "current" {}
-
+data "azurerm_client_config" "ravi" {
+  
+}
 module "resource_group" {
-  source   = "../modules/rg"
-  rg_name  = var.rg_name
-  location = var.location
-  tags     = var.tags
-}
-module "storage_account" {
-  source               = "../modules/st"
-  storage_account_name = var.st_name
-  location             = var.location
-  resource_group_name  = var.rg_name
-  depends_on = [
-    module.resource_group
-  ]
-
-}
-module "service_plan" {
-  source              = "../modules/sp"
-  location            = var.location
-  sp_name             = var.sp_name
-  resource_group_name = var.rg_name
-  depends_on = [
-    module.resource_group
-  ]
-
-}
-module "function_app" {
-  source                     = "../modules/fa"
-  fapp                       = var.fapp_name
-  location                   = var.location
-  resource_group_name        = var.rg_name
-  storage_account_name       = var.st_name
-  storage_account_access_key = module.storage_account.primary_access_key
-  service_plan_id            = module.service_plan.app_service_id
-  depends_on = [
-    module.storage_account
-  ]
+    source = "../module/rg"
+    rg_name = var.rg_name
+    location = var.location
+      
 }
 module "key_vault" {
-  source = "../modules/keyvault"
-  depends_on = [
-    module.resource_group
-  ]
-  kv_name             = var.key_vault_name
-  location            = var.location
-  resource_group_name = var.rg_name
-  tenant_id           = data.azurerm_client_config.current.tenant_id
-  object_id           = data.azurerm_client_config.current.object_id
-
+    source = "../module/kv"
+    kv_name = var.key_vault_name
+    location = var.location
+    tenant_id = data.azurerm_client_config.ravi.tenant_id
+    object_id = data.azurerm_client_config.ravi.object_id
+    depends_on = [
+      module.resource_group
+    ]
+    resource_group_name = var.rg_name
 }
-module "cosmos_db" {
-  source              = "../modules/cosmos_db"
-  location            = var.location
-  resource_group_name = var.rg_name
-  depends_on = [
-    module.key_vault
-  ]
-
+module "aks_cluster" {
+    source = "../module/aks"
+    aks_name = var.aks_name
+    location = var.location
+    resource_group_name = var.rg_name
+    depends_on = [
+      module.resource_group
+    ]
+    
+  
 }
-module "key_vault_secret" {
-  source       = "../modules/key_secret"
-  depends_on   = [module.key_vault, module.cosmos_db]
+
+module "kv_secret" {
+    source = "../module/kv_secret"
+    depends_on = [
+      module.key_vault , module.aks_cluster
+    ]
+  
   key_vault_id = module.key_vault.key_vault_id
   secret_names = {
-    "cosmos-db-primary-key"   = "module.cosmosdb_account.primary_key"
-    "cosmos-db-secondary-key" = "module.cosmosdb_account.secondary_key"
-
+    "aks-kube-config" = "module.aks.kube_config"
+    "aks-certifcates" = "module.aks.client_certifcates"
   }
 }
