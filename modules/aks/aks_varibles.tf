@@ -1,9 +1,9 @@
 variable "aks_name" {
-    default = "raviaks1234"
+    default = ""
   
 }
 variable "location" {
-    default = "uksouth"
+    default = ""
   
 }
 variable "resource_group_name" {
