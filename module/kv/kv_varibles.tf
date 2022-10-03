@@ -1,9 +1,9 @@
 variable "kv_name" {
-    default = "ravikey6789"
+    default = "ravikeyvault1234"
   
 }
 variable "location" {
-    default = ""
+    default = "uksouth"
   
 }
 variable "resource_group_name" {

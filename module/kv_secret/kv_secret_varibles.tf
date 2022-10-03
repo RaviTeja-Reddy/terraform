@@ -1,6 +1,5 @@
 variable "secret_name" {
     default = "default-secret-name"
-    type = string
   
 }
 variable "secret_names" {
@@ -8,15 +7,12 @@ variable "secret_names" {
     default = {
       "" = ""
     }
-  
 }
-variable "secret_value" {
-    default = "default-secret-value"
-    type = string
+variable "secret_values" {
+    default = "default_secret_value"
   
 }
 variable "key_vault_id" {
     default = "kv_id"
-    type = string
   
 }
